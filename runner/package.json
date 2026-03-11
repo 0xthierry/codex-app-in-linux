@@ -1,0 +1,5 @@
+{
+  "name": "codex-linux-wrapper",
+  "private": true,
+  "main": "main.js"
+}

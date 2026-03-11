@@ -1,0 +1,4 @@
+.codex-linux-runtime/
+/linux-tools/node_modules/
+/ai_docs/
+/runner/resources/

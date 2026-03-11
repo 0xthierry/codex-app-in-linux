@@ -1,0 +1,12 @@
+{
+  "name": "codex-dmg-linux-tools",
+  "private": true,
+  "description": "Pinned toolchain for running Codex.dmg on Linux",
+  "license": "MIT",
+  "dependencies": {
+    "@electron/asar": "4.1.0",
+    "@openai/codex": "0.114.0",
+    "better-sqlite3": "12.5.0",
+    "electron": "40.8.0"
+  }
+}
