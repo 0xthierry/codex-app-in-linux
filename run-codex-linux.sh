@@ -85,6 +85,9 @@ fi
 
 if [[ ! -f "$SQLITE_MARKER" ]]; then
   printf 'Building Linux better-sqlite3 module...\n'
+  # npm/node-gyp on this toolchain can fail during post-build cleanup if this
+  # helper directory is absent, even after the Electron ABI build succeeds.
+  mkdir -p "$TOOLS_NODE_MODULES/better-sqlite3/build/node_gyp_bins"
   npm_config_runtime=electron \
   npm_config_target="$ELECTRON_VERSION" \
   npm_config_disturl=https://electronjs.org/headers \

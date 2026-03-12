@@ -11,6 +11,7 @@ ICON_DIR="$DATA_DIR/icons/hicolor/512x512/apps"
 DESKTOP_FILE="$APPLICATIONS_DIR/codex-linux.desktop"
 ICON_SOURCE="$ROOT_DIR/assets/codex-linux.png"
 ICON_TARGET="$ICON_DIR/codex-linux.png"
+LEGACY_ICON_PATH="$DATA_DIR/icons/hicolor/scalable/apps/codex-linux.svg"
 LAUNCHER_PATH="$BIN_DIR/codex-linux"
 UNINSTALLER_PATH="$BIN_DIR/codex-linux-uninstall"
 RUNTIME_DIR="$STATE_DIR/codex-app-in-linux/runtime"
@@ -53,6 +54,7 @@ tar \
 rm -rf "$INSTALL_DIR"
 mv "$TMP_DIR" "$INSTALL_DIR"
 
+rm -f "$LEGACY_ICON_PATH"
 install -m 0644 "$ICON_SOURCE" "$ICON_TARGET"
 
 cat >"$LAUNCHER_PATH" <<EOF
@@ -85,6 +87,14 @@ EOF
 
 if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$APPLICATIONS_DIR" >/dev/null 2>&1 || true
+fi
+
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+  gtk-update-icon-cache -f -t "$DATA_DIR/icons/hicolor" >/dev/null 2>&1 || true
+fi
+
+if command -v xdg-icon-resource >/dev/null 2>&1; then
+  xdg-icon-resource forceupdate >/dev/null 2>&1 || true
 fi
 
 printf 'Installed Codex for this user.\n'
