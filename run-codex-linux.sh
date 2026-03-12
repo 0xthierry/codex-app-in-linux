@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RUNTIME_DIR="$ROOT_DIR/.codex-linux-runtime"
+RUNTIME_DIR="${CODEX_LINUX_RUNTIME_DIR:-$ROOT_DIR/.codex-linux-runtime}"
 DMG_EXTRACT_DIR="$RUNTIME_DIR/dmg"
 APP_ROOT="$RUNTIME_DIR/app"
 TOOLS_DIR="$ROOT_DIR/linux-tools"
@@ -29,6 +29,12 @@ need_cmd python3
 
 if [[ ! -f "$DMG_PATH" ]]; then
   printf 'Missing DMG: %s\n' "$DMG_PATH" >&2
+  exit 1
+fi
+
+if sed -n '1p' "$DMG_PATH" | grep -qx 'version https://git-lfs.github.com/spec/v1'; then
+  printf 'assets/Codex.dmg is a Git LFS pointer, not the real DMG payload.\n' >&2
+  printf 'Install git-lfs, then run: git lfs pull\n' >&2
   exit 1
 fi
 
